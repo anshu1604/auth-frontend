@@ -1,23 +1,61 @@
-import { Grid, Typography } from "@mui/material";
-import TextField from "../components/atom/Input";
+import { Grid, Typography, TextField, Snackbar } from "@mui/material";
 import TrendingFlatIcon from '@mui/icons-material/TrendingFlat';
+import { useState } from "react";
+import apiService from '../services/apiService';
+import { config } from "../config";
 
 const Login = () => {
+
+
+    const [email, setEmail] = useState('');
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [data, setData] = useState();
+
+
+
+    const handleChange = (e) => {
+        setEmail(e.target.value);
+    }
+    const handleAddEmail = async (e) => {
+        e.preventDefault();
+        const url = config.API_BASE_URL_DEV + '/api/otp/send';
+        const method = 'POST';
+        apiService(url, method, email)
+        setOpenSnackbar(true);
+    }
+    const handleVerifyOtp = (e) => {
+        e.preventDefault();
+        const otp = 1234;
+        const url = config.API_BASE_URL_DEV + '/api/otp/verify';
+        const method = 'PUT';
+        apiService(url, method, email, otp);
+    }
+
     return (
         <>
             <Grid container >
-                <Grid lg={6} md={6} sm={5} xs={1} display="flex" className="overflow-hide">
-                    <img src='https://picsum.photos/1400/1080' />
+
+                {/* Image section starts */}
+                <Grid item lg={6} md={6} sm={5} xs={1} display="flex" className="overflow-hide">
+                    <img src='https://picsum.photos/1400/1080' alt='' />
                 </Grid>
-                <Grid lg={6} md={6} sm={7} xs={11} display="flex">
+                {/* Image section ends */}
+
+                {/* Login section starts */}
+                <Grid item lg={6} md={6} sm={7} xs={11} display="flex">
                     <Grid item lg={4} md={3} sm={2} xs={1}></Grid>
                     <Grid item lg={4} md={6} sm={8} xs={10}>
                         <Grid className="vertical-center">
+
+                            {/* Email section starts */}
                             <Grid>
                                 <Typography variant="h4">Please enter your mail id</Typography>
-                                <TextField label='Email' />
-                                <TrendingFlatIcon />
+                                <TextField fullWidth label='Email' onChange={(e) => handleChange(e)} value={email} />
+                                <TrendingFlatIcon onClick={handleAddEmail} />
                             </Grid>
+                            {/* Email section ends */}
+
+                            {/* Verify OTP section starts */}
                             <Grid container spacing={2} className="mt-10">
                                 <Grid className="mx-20">
                                     <Typography variant='h4' >verify your OTP</Typography>
@@ -36,32 +74,25 @@ const Login = () => {
                                     <TextField />
                                 </Grid>
                             </Grid>
+
+                            {/* Bottom buttons section starts */}
                             <Grid container className="mt-10">
-                                <Grid item lg={10}><TrendingFlatIcon /></Grid>
+                                <Grid item lg={10}><TrendingFlatIcon onClick={handleVerifyOtp} /></Grid>
                                 <Grid item lg={2}><Typography>Resend</Typography></Grid>
                             </Grid>
+                            {/* Bottom buttons section ends */}
+                            {/* Verify OTP section ends */}
+
                         </Grid>
                     </Grid>
                 </Grid>
+                {/* Login section ends */}
             </Grid>
-
-
-
-            {/* <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
-                <TrendingFlatIcon
-                    id="outlined-adornment-password"
-                    endAdornment={
-                        <TrendingFlatIcon position="end">
-                            <IconButton
-                                aria-label="toggle password visibility"
-                                edge="end"
-                            >
-                            </IconButton>
-                        </TrendingFlatIcon>
-                    }
-                    label="Password"
-                />
-            </FormControl> */}
+            <Snackbar
+                open={openSnackbar}
+                autoHideDuration={2000}
+            // message={message}
+            />
         </>
     );
 }
