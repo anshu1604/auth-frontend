@@ -1,20 +1,18 @@
+import { EighteenUpRatingSharp } from "@mui/icons-material";
 import axios from "axios";
 
-const apiService = async (url, method, email, otp) => {
+const apiService = async (url, method, payload) => {
 
-    await axios({
-        url: url,
-        method: method,
-        data: ({
-            email: email,
-            otp: otp
+    try {
+        const response = await axios({
+            url: url,
+            method: method,
+            data: (payload)
         })
-    }).then(res => {
-        const response = res.data;
-        return response;
-    }).catch(err => {
-        console.log(err);
-    })
+        return response.data;
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 export default apiService;

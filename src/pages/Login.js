@@ -6,7 +6,6 @@ import { config } from "../config";
 
 const Login = () => {
 
-
     const [email, setEmail] = useState('');
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [data, setData] = useState();
@@ -20,15 +19,19 @@ const Login = () => {
         e.preventDefault();
         const url = config.API_BASE_URL_DEV + '/api/otp/send';
         const method = 'POST';
-        apiService(url, method, email)
+        const payload = { email };
+        const apiResponse = await apiService(url, method, payload);
+        setData(apiResponse);
         setOpenSnackbar(true);
     }
-    const handleVerifyOtp = (e) => {
+    const handleVerifyOtp = async (e) => {
         e.preventDefault();
         const otp = 1234;
         const url = config.API_BASE_URL_DEV + '/api/otp/verify';
         const method = 'PUT';
-        apiService(url, method, email, otp);
+        const payload = { email, otp };
+        const apiResponse = await apiService(url, method, payload);
+        setData(apiResponse);
     }
 
     return (
@@ -90,8 +93,8 @@ const Login = () => {
             </Grid>
             <Snackbar
                 open={openSnackbar}
-                autoHideDuration={2000}
-            // message={message}
+                autoHideDuration={1000}
+                message={data?.message}
             />
         </>
     );
