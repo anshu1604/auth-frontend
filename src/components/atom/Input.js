@@ -1,9 +1,9 @@
 import { TextField } from '@mui/material';
 
-const InputField = ({label}) => {
+const TextField = ({label}) => {
     return (
-        <TextField fullWidth label={label}/>
+        <TextField fullWidth label={label} />
     );
 }
 
-export default InputField;
+export default TextField;
