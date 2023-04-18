@@ -1,4 +1,3 @@
-import { EighteenUpRatingSharp } from "@mui/icons-material";
 import axios from "axios";
 
 const apiService = async (url, method, payload) => {
@@ -11,7 +10,8 @@ const apiService = async (url, method, payload) => {
         })
         return response.data;
     } catch (error) {
-        console.log(error);
+        console.log(error.response.data.message);
+        return error.response.data;
     }
 }
 

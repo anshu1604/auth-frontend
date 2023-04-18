@@ -9,8 +9,8 @@ const Login = () => {
     const [email, setEmail] = useState('');
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [data, setData] = useState();
-
-
+    const [isEmailSent, setIsEmailSent] = useState(false);
+    const otpArray = [];
 
     const handleChange = (e) => {
         setEmail(e.target.value);
@@ -21,18 +21,24 @@ const Login = () => {
         const method = 'POST';
         const payload = { email };
         const apiResponse = await apiService(url, method, payload);
+        setIsEmailSent(apiResponse.success);
         setData(apiResponse);
         setOpenSnackbar(true);
     }
     const handleVerifyOtp = async (e) => {
         e.preventDefault();
-        const otp = 1234;
+        const otp = parseInt(otpArray.join(''));
         const url = config.API_BASE_URL_DEV + '/api/otp/verify';
         const method = 'PUT';
         const payload = { email, otp };
         const apiResponse = await apiService(url, method, payload);
         setData(apiResponse);
+        otpArray = [];
     }
+    const handleCreateOtp = (e, i) => {
+        otpArray[i] = (e.target.value);
+    }
+
 
     return (
         <>
@@ -59,33 +65,36 @@ const Login = () => {
                             {/* Email section ends */}
 
                             {/* Verify OTP section starts */}
-                            <Grid container spacing={2} className="mt-10">
-                                <Grid className="mx-20">
-                                    <Typography variant='h4' >verify your OTP</Typography>
-                                    <Typography>An OTP has been sent to your mail id</Typography>
-                                </Grid>
-                                <Grid item lg={3} md={3} sm={3} xs={3}>
-                                    <TextField />
-                                </Grid>
-                                <Grid item lg={3} md={3} sm={3} xs={3}>
-                                    <TextField />
-                                </Grid>
-                                <Grid item lg={3} md={3} sm={3} xs={3}>
-                                    <TextField />
-                                </Grid>
-                                <Grid item lg={3} md={3} sm={3} xs={3}>
-                                    <TextField />
-                                </Grid>
-                            </Grid>
+                            {isEmailSent && (
+                                <>
+                                    <Grid container spacing={2} className="mt-10">
+                                        <Grid className="mx-20">
+                                            <Typography variant='h4' >verify your OTP</Typography>
+                                            <Typography>An OTP has been sent to your mail id</Typography>
+                                        </Grid>
 
-                            {/* Bottom buttons section starts */}
-                            <Grid container className="mt-10">
-                                <Grid item lg={10}><TrendingFlatIcon onClick={handleVerifyOtp} /></Grid>
-                                <Grid item lg={2}><Typography>Resend</Typography></Grid>
-                            </Grid>
-                            {/* Bottom buttons section ends */}
-                            {/* Verify OTP section ends */}
+                                        {(() => {
+                                            const textFieldArray = [];
+                                            for (let i = 0; i < 4; i++) {
+                                                textFieldArray.push(
+                                                    <Grid item lg={3} md={3} sm={3} xs={3}>
+                                                        <TextField type="string" required={true} inputProps={{ maxLength: 1, minLength: 1 }} onChange={(e) => handleCreateOtp(e, i)} />
+                                                    </Grid>
+                                                );
+                                            }
+                                            return textFieldArray;
+                                        })()}
+                                    </Grid>
 
+                                    {/* Bottom buttons section starts */}
+                                    <Grid container className="mt-10">
+                                        <Grid item lg={10}><TrendingFlatIcon onClick={handleVerifyOtp} /></Grid>
+                                        <Grid item lg={2}><Typography>Resend</Typography></Grid>
+                                    </Grid>
+                                    {/* Bottom buttons section ends */}
+                                    {/* Verify OTP section ends */}
+                                </>
+                            )}
                         </Grid>
                     </Grid>
                 </Grid>
