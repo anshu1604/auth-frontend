@@ -13,7 +13,6 @@ const Login = () => {
 
 
     const handleChange = (e) => {
-        console.log("hgygyjhghj", e.target.value);
         setEmail(e.target.value);
     }
     const handleAddEmail = async (e) => {
