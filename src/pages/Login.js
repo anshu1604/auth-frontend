@@ -3,15 +3,22 @@ import TrendingFlatIcon from '@mui/icons-material/TrendingFlat';
 import { useState } from "react";
 import apiService from '../services/apiService';
 import { config } from "../config";
-import { emailValidator } from '../utils/validation';
+import { emailValidator, otpValidator } from '../utils/validation';
 
 const Login = () => {
+
+    // state variables starts
 
     const [email, setEmail] = useState('');
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [data, setData] = useState();
     const [isEmailSent, setIsEmailSent] = useState(false);
     const [isEmailValid, setIsEmailValid] = useState(true);
+    const [validationMessage, setValidationMessage] = useState();
+    const [isOtpValid, setIsOtpValid] = useState(true);
+
+    //state varaibles ends
+
     let otpArray = [];
 
     const handleChange = (e) => {
@@ -19,25 +26,39 @@ const Login = () => {
     }
     const handleAddEmail = async (e) => {
         e.preventDefault();
-        const isEmailValid = emailValidator(email);
-        setIsEmailValid(isEmailValid);
-        const url = config.API_BASE_URL_DEV + '/api/otp/send';
-        const method = 'POST';
-        const payload = { email };
-        const apiResponse = await apiService(url, method, payload);
-        setIsEmailSent(apiResponse.success);
-        setData(apiResponse);
-        setOpenSnackbar(true);
+        const catchValidation = emailValidator(email);
+        const { isValid, message } = catchValidation;
+        setIsEmailValid(isValid);
+        setValidationMessage(message);
+
+        if (isValid) {
+            const url = config.API_BASE_URL_DEV + '/api/otp/send';
+            const method = 'POST';
+            const payload = { email };
+            const apiResponse = await apiService(url, method, payload);
+            setIsEmailSent(apiResponse.success);
+            setData(apiResponse);
+            setOpenSnackbar(true);
+            setValidationMessage('');
+        }
     }
     const handleVerifyOtp = async (e) => {
         e.preventDefault();
         const otp = parseInt(otpArray.join(''));
-        const url = config.API_BASE_URL_DEV + '/api/otp/verify';
-        const method = 'PUT';
-        const payload = { email, otp };
-        const apiResponse = await apiService(url, method, payload);
-        setData(apiResponse);
-        otpArray = [];
+        const catchValidation = otpValidator(otp);
+        const { isValid, message } = catchValidation;
+        setIsOtpValid(isValid);
+        setValidationMessage(message);
+
+        if (isValid) {
+            const url = config.API_BASE_URL_DEV + '/api/otp/verify';
+            const method = 'PUT';
+            const payload = { email, otp };
+            const apiResponse = await apiService(url, method, payload);
+            setData(apiResponse);
+            otpArray = [];
+            setValidationMessage('');
+        }
     }
     const handleCreateOtp = (e, i) => {
         otpArray[i] = (e.target.value);
@@ -62,7 +83,7 @@ const Login = () => {
                             {/* Email section starts */}
                             <Grid>
                                 <Typography variant="h4">Please enter your mail id</Typography>
-                                <TextField fullWidth label='Email' onChange={(e) => handleChange(e)} value={email} helperText={isEmailValid ? '' : <Typography color='error'>Please enter a valid email</Typography>} />
+                                <TextField fullWidth label='Email' onChange={(e) => handleChange(e)} value={email} helperText={isEmailValid ? '' : <Typography color='error'>{validationMessage}</Typography>} />
                                 <TrendingFlatIcon onClick={handleAddEmail} />
                             </Grid>
                             {/* Email section ends */}
@@ -85,7 +106,13 @@ const Login = () => {
                                                     </Grid>
                                                 );
                                             }
-                                            return textFieldArray;
+                                            return (
+                                                <>
+                                                    {textFieldArray}
+                                                    {!isOtpValid && <Typography color='error'>{validationMessage}</Typography>}
+                                                </>
+                                            )
+
                                         })()}
                                     </Grid>
 
@@ -105,8 +132,10 @@ const Login = () => {
             </Grid>
             <Snackbar
                 open={openSnackbar}
-                autoHideDuration={1000}
+                onClose={() => { setOpenSnackbar(false) }}
+                autoHideDuration={3000}
                 message={data?.message}
+                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
             />
         </>
     );
