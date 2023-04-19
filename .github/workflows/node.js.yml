@@ -24,7 +24,8 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+    - run: sudo rm -r node_modules/
+    - run: sudo rm package-lock.json
     - run: npm i
-    - run: npm ci
     - run: pm2 delete auth-f
     - run: pm2 start npm --name auth-f -- run start
