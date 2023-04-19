@@ -13,6 +13,7 @@ const Login = () => {
     const otpArray = [];
 
     const handleChange = (e) => {
+        console.log(e.target.value);
         setEmail(e.target.value);
     }
     const handleAddEmail = async (e) => {
