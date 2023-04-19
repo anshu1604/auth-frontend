@@ -24,5 +24,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - run: npm ci
+    - run: sudo rm -rf node_modules
+    - run: sudo rm package-lock.json
+    - run: npm i
     - run: pm2 restart npm --name auth-f -- run start
