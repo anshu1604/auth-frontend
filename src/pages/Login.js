@@ -3,6 +3,7 @@ import TrendingFlatIcon from '@mui/icons-material/TrendingFlat';
 import { useState } from "react";
 import apiService from '../services/apiService';
 import { config } from "../config";
+import { emailValidator } from '../utils/validation';
 
 const Login = () => {
 
@@ -10,13 +11,16 @@ const Login = () => {
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [data, setData] = useState();
     const [isEmailSent, setIsEmailSent] = useState(false);
-    const otpArray = [];
+    const [isEmailValid, setIsEmailValid] = useState(true);
+    let otpArray = [];
 
     const handleChange = (e) => {
         setEmail(e.target.value);
     }
     const handleAddEmail = async (e) => {
         e.preventDefault();
+        const isEmailValid = emailValidator(email);
+        setIsEmailValid(isEmailValid);
         const url = config.API_BASE_URL_DEV + '/api/otp/send';
         const method = 'POST';
         const payload = { email };
@@ -39,7 +43,6 @@ const Login = () => {
         otpArray[i] = (e.target.value);
     }
 
-
     return (
         <>
             <Grid container >
@@ -59,7 +62,7 @@ const Login = () => {
                             {/* Email section starts */}
                             <Grid>
                                 <Typography variant="h4">Please enter your mail id</Typography>
-                                <TextField fullWidth label='Email' onChange={(e) => handleChange(e)} value={email} />
+                                <TextField fullWidth label='Email' onChange={(e) => handleChange(e)} value={email} helperText={isEmailValid ? '' : <Typography color='error'>Please enter a valid email</Typography>} />
                                 <TrendingFlatIcon onClick={handleAddEmail} />
                             </Grid>
                             {/* Email section ends */}
