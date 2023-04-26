@@ -4,6 +4,7 @@ import { useState } from "react";
 import apiService from '../services/apiService';
 import { config } from "../config";
 import { emailValidator, otpValidator } from '../utils/validation';
+import { setCookies } from "../utils/cookies";
 
 const Login = () => {
 
@@ -57,7 +58,9 @@ const Login = () => {
             const apiResponse = await apiService(url, method, payload);
             setData(apiResponse);
             otpArray = [];
+            setOpenSnackbar(true);
             setValidationMessage('');
+            setCookies('accessToken', apiResponse.data.accessToken);
         }
     }
     const handleCreateOtp = (e, i) => {
@@ -112,7 +115,6 @@ const Login = () => {
                                                     {!isOtpValid && <Typography color='error'>{validationMessage}</Typography>}
                                                 </>
                                             )
-
                                         })()}
                                     </Grid>
 
