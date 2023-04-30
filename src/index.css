@@ -13,32 +13,191 @@ code {
 }
 
 
-.overflow-hide{
+.overflow-hide {
   overflow: hidden;
 }
-.deviceCenter{
-  position:absolute;
-  top:50%;
+
+.deviceCenter {
+  position: absolute;
+  top: 50%;
   left: 50%;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
 }
-.vertical-center{
+
+.deviceHorizontalCenter {
+  position: absolute;
+  left: 50%;
+  transform: translate(0%, -50%);
+}
+
+.vertical-center {
   top: 50%;
   position: sticky;
   transform: translate(0, -50%);
 }
-.px-10{
+
+.px-10 {
   padding: 0px 10px !important;
 }
-.display-inline{
+
+.display-inline {
   display: inline-block;
 }
-.display-block{
+
+.display-block {
   display: block;
 }
-.mt-10{
-  margin-top: 10px!important; 
+
+.mt-10 {
+  margin-top: 10px !important;
 }
-.mx-20{
-  margin:0 20px!important; 
+.mt-20vh{
+  margin-top: 20vh;
 }
+
+.mx-20 {
+  margin: 0 20px !important;
+}
+
+.full-height {
+  height: 100vh;
+}
+
+.negative-margin {
+  margin-top: -10%;
+}
+
+.z-index {
+  z-index: 99999999999;
+}
+.center-text{
+  text-align: center !important;
+}
+
+
+
+/* homepage css starts*/
+.home-bg {
+  background-color: #F7FCFF;
+}
+
+.home-image-style {
+  font-weight: 800 !important;
+  font-size: 6rem !important;
+  color: #028491 !important;
+  margin-bottom: -9rem !important;
+}
+
+.temp-icon-style{
+  font-size: 40px !important;
+  margin: 30px !important;
+}
+
+
+/* Blinking Arrow Animation starts */
+section::after {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  content: '';
+  width: 100%;
+  height: 80%;
+  /* background: -webkit-linear-gradient(top,rgba(0,0,0,0) 0,rgba(0,0,0,.8) 80%,rgba(0,0,0,.8) 100%);
+  background: linear-gradient(to bottom,rgba(0,0,0,0) 0,rgba(0,0,0,.8) 80%,rgba(0,0,0,.8) 100%); */
+}
+
+.demo a {
+  position: absolute;
+  bottom: 100px;
+  left: 50%;
+  z-index: 2;
+  display: inline-block;
+  -webkit-transform: translate(0, -50%);
+  transform: translate(0, -50%);
+  cursor: pointer;
+}
+
+#section a span {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 46px;
+  height: 46px;
+  margin-left: -23px;
+  border: 1px solid #003479;
+  border-radius: 100%;
+  box-sizing: border-box;
+}
+
+#section a span::after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  content: '';
+  width: 16px;
+  height: 16px;
+  margin: -5px 0 0 -8px;
+  border-left: 1px solid #003479;
+  border-bottom: 1px solid #003479;
+  -webkit-transform: rotate(135deg);
+  transform: rotate(135deg);
+  box-sizing: border-box;
+}
+
+#section a span::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  content: '';
+  width: 44px;
+  height: 44px;
+  box-shadow: 0 0 0 0 rgba(0, 46, 121, 0.1);
+  border-radius: 100%;
+  opacity: 0;
+  -webkit-animation: sdb03 3s infinite;
+  animation: sdb03 3s infinite;
+  box-sizing: border-box;
+}
+
+@-webkit-keyframes sdb03 {
+  0% {
+    opacity: 0;
+  }
+
+  30% {
+    opacity: 1;
+  }
+
+  60% {
+    box-shadow: 0 0 0 60px rgba(255, 255, 255, .1);
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes sdb03 {
+  0% {
+    opacity: 0;
+  }
+
+  30% {
+    opacity: 1;
+  }
+
+  60% {
+    box-shadow: 0 0 0 60px rgba(255, 255, 255, .1);
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Blinking Arrow Animation ends */
+
+/* homepage css ends */

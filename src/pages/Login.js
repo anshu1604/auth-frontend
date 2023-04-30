@@ -5,8 +5,11 @@ import apiService from '../services/apiService';
 import { config } from "../config";
 import { emailValidator, otpValidator } from '../utils/validation';
 import { setCookies } from "../utils/cookies";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+
+    const navigate = useNavigate();
 
     // state variables starts
 
@@ -60,6 +63,7 @@ const Login = () => {
             otpArray = [];
             setOpenSnackbar(true);
             setValidationMessage('');
+            navigate('/');
             setCookies('accessToken', apiResponse.data.accessToken);
         }
     }
