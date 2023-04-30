@@ -1,9 +1,13 @@
-import PrimarySearchAppBar from "./navbar";
+import Homepage from "./Homepage";
+import PrimarySearchAppBar from "./Navbar";
 
 const Dashboard = () => {
-    return ( 
-        <PrimarySearchAppBar/>
-     );
+    return (
+        <>
+            <PrimarySearchAppBar />
+            <Homepage />
+        </>
+    );
 }
- 
+
 export default Dashboard;
