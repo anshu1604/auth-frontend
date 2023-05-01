@@ -4,10 +4,12 @@ import { useState } from "react";
 import apiService from '../services/apiService';
 import { config } from "../config";
 import { emailValidator, otpValidator } from '../utils/validation';
-import { setCookies } from "../utils/cookies";
 import { useNavigate } from "react-router-dom";
+import { Cookies } from "../utils/cookies";
 
-const Login = () => {
+const Login = (props) => {
+
+    const { getToken } = props;
 
     const navigate = useNavigate();
 
@@ -64,7 +66,8 @@ const Login = () => {
             setOpenSnackbar(true);
             setValidationMessage('');
             setTimeout(navigate('/'), 2000);
-            setCookies('accessToken', apiResponse.data.accessToken);
+            new Cookies('accessToken', apiResponse.data.accessToken).write();
+            getToken();
         }
     }
     const handleCreateOtp = (e, i) => {
