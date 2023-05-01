@@ -1,5 +1,5 @@
 import Homepage from "./Homepage";
-import PrimarySearchAppBar from "./Navbar";
+import PrimarySearchAppBar from "../components/atom/Navbar";
 
 const Dashboard = () => {
     return (
