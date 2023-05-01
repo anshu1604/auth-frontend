@@ -9,7 +9,7 @@ const Homepage = () => {
     }
     return (
         <>
-            <Grid className="full-height home-bg" >
+            <Grid className="home-bg" >
                 <Grid className="center-text mt-20vh">
                     <Typography className="home-image-style" variant="h2" >Keep Calm</Typography>
                     <img alt="" src="https://uploads-ssl.webflow.com/5c1fc19d114105df46ff4ddb/5d640d75b1c595797842b305_man-meditating-in-nature-and-leaves-concept-illustration-for-yoga-meditation-relax-recreation-healthy-lifestyle-vector-illustration-in-flat-cartoon-style.png" />
