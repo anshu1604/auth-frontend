@@ -63,7 +63,7 @@ const Login = () => {
             otpArray = [];
             setOpenSnackbar(true);
             setValidationMessage('');
-            navigate('/');
+            setTimeout(navigate('/'), 2000);
             setCookies('accessToken', apiResponse.data.accessToken);
         }
     }
