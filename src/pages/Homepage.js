@@ -19,7 +19,7 @@ const Homepage = () => {
                 </Grid>
             </Grid>
 
-            <Grid id="section" class="demo">
+            <Grid id="section" className="demo">
                 <Link onClick={handleAppDrawer}><Typography component="span" /></Link>
             </Grid>
         </>
