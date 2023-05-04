@@ -27,8 +27,18 @@ const Login = (props) => {
 
     let otpArray = [];
 
+
     const handleChange = (e) => {
         setEmail(e.target.value);
+    }
+    const handleEnter = (e) => {
+        if (e?.keyCode === 13) {
+            if (e.target.name === 'email') {
+                handleAddEmail(e);
+            } else {
+                handleVerifyOtp(e);
+            }
+        };
     }
     const handleAddEmail = async (e) => {
         e.preventDefault();
@@ -73,6 +83,13 @@ const Login = (props) => {
     const handleCreateOtp = (e, i) => {
         otpArray[i] = (e.target.value);
     }
+    const autoTab = (field1, len, field2) => {
+        if (field2 !== 'otp' + 4) {
+            if (document.getElementById(field1).value.length === len) {
+                document.getElementById(field2).focus();
+            }
+        }
+    }
 
     return (
         <>
@@ -93,7 +110,7 @@ const Login = (props) => {
                             {/* Email section starts */}
                             <Grid>
                                 <Typography variant="h4">Please enter your mail id</Typography>
-                                <TextField fullWidth label='Email' onChange={(e) => handleChange(e)} value={email} helperText={isEmailValid ? '' : <Typography color='error'>{validationMessage}</Typography>} />
+                                <TextField fullWidth name="email" label='Email' onChange={(e) => handleChange(e)} onKeyDown={(e) => handleEnter(e)} value={email} helperText={isEmailValid ? '' : <Typography color='error'>{validationMessage}</Typography>} />
                                 <TrendingFlatIcon onClick={handleAddEmail} />
                             </Grid>
                             {/* Email section ends */}
@@ -111,8 +128,8 @@ const Login = (props) => {
                                             const textFieldArray = [];
                                             for (let i = 0; i < 4; i++) {
                                                 textFieldArray.push(
-                                                    <Grid item lg={3} md={3} sm={3} xs={3}>
-                                                        <TextField type="string" required={true} inputProps={{ maxLength: 1, minLength: 1 }} onChange={(e) => handleCreateOtp(e, i)} />
+                                                    <Grid item lg={3} md={3} sm={3} xs={3} className="container">
+                                                        <TextField id={"otp" + i} type="string" required={true} inputProps={{ maxLength: 1, minLength: 1 }} onChange={(e) => handleCreateOtp(e, i)} onKeyDown={(e) => handleEnter(e)} onKeyUp={(e) => autoTab('otp' + i, 1, 'otp' + (i + 1))} />
                                                     </Grid>
                                                 );
                                             }
