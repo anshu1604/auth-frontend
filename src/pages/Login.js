@@ -6,6 +6,7 @@ import { config } from "../config";
 import { emailValidator, otpValidator } from '../utils/validation';
 import { useNavigate } from "react-router-dom";
 import { Cookies } from "../utils/cookies";
+import Snackbar from "../components/atom/Snackbar";
 
 const Login = (props) => {
 
@@ -26,6 +27,7 @@ const Login = (props) => {
     //state varaibles ends
 
     let otpArray = [];
+    const props = { message };
 
 
     const handleChange = (e) => {
@@ -156,13 +158,14 @@ const Login = (props) => {
                 </Grid>
                 {/* Login section ends */}
             </Grid>
-            <Snackbar
+            <Snackbar message={data?.message} />
+            {/* <Snackbar
                 open={openSnackbar}
                 onClose={() => { setOpenSnackbar(false) }}
                 autoHideDuration={3000}
                 message={data?.message}
                 anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-            />
+            /> */}
         </>
     );
 }
