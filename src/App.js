@@ -4,6 +4,7 @@ import Dashboard from './pages/Dashboard';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Cookies } from './utils/cookies';
 import { useState } from 'react';
+import SnackBar from './components/atom/SnackBar';
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
           <Route path='/login' element={<Login getToken={getToken} />} />
         </Routes>
       </BrowserRouter>
+      <SnackBar />
     </>
   );
 }
