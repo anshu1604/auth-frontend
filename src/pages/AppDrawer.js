@@ -1,11 +1,9 @@
-import * as React from 'react';
-import PropTypes from 'prop-types';
 import { styled } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
 import { grey } from '@mui/material/colors';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
+import { useState } from 'react';
 
 const drawerBleeding = 56;
 
@@ -22,8 +20,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
 }));
 
 function AppDrawer(props) {
-    const { window } = props;
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
 
     const toggleDrawer = (newOpen) => () => {
         setOpen(newOpen);

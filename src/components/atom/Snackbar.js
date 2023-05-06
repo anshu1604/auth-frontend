@@ -1,12 +1,17 @@
 import { Snackbar } from "@mui/material";
+import { useSelector, useDispatch } from "react-redux";
+import { openSnackbar } from "../../app/commonSlice";
 
-const Snackbar = (props) => {
+const SnackBar = () => {
 
-    const { message } = props;
+    const isSnackbarOpen = useSelector((state) => state.common.isSnackbarOpen);
+    const message = useSelector((state) => state.common.snackbarMessage);
+    const dispatch = useDispatch();
+
     return (
         <Snackbar
-            open={openSnackbar}
-            onClose={() => { setOpenSnackbar(false) }}
+            open={isSnackbarOpen}
+            onClose={() =>  dispatch(openSnackbar(false))}
             autoHideDuration={3000}
             message={message}
             anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
@@ -14,4 +19,4 @@ const Snackbar = (props) => {
     );
 }
 
-export default Snackbar;
+export default SnackBar;
