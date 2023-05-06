@@ -12,7 +12,6 @@ code {
     monospace;
 }
 
-
 .overflow-hide {
   overflow: hidden;
 }
@@ -52,9 +51,11 @@ code {
   margin-top: 10px !important;
 }
 .mt-20vh{
-  margin-top: 20vh;
+  margin-top: 20vh!important;
 }
-
+.mt-5vh{
+  margin-top: 5vh!important;
+}
 .mx-20 {
   margin: 0 20px !important;
 }

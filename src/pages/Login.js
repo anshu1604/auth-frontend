@@ -1,4 +1,4 @@
-import { Grid, Typography, TextField, Snackbar } from "@mui/material";
+import { Grid, Typography, TextField, Button } from "@mui/material";
 import TrendingFlatIcon from '@mui/icons-material/TrendingFlat';
 import { useState } from "react";
 import apiService from '../services/apiService';
@@ -6,29 +6,28 @@ import { config } from "../config";
 import { emailValidator, otpValidator } from '../utils/validation';
 import { useNavigate } from "react-router-dom";
 import { Cookies } from "../utils/cookies";
-import Snackbar from "../components/atom/Snackbar";
+import { useDispatch } from "react-redux";
+import { openSnackbar } from "../app/commonSlice";
+import { Timer } from "@mui/icons-material";
 
 const Login = (props) => {
 
     const { getToken } = props;
-
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     // state variables starts
 
     const [email, setEmail] = useState('');
-    const [openSnackbar, setOpenSnackbar] = useState(false);
-    const [data, setData] = useState();
     const [isEmailSent, setIsEmailSent] = useState(false);
     const [isEmailValid, setIsEmailValid] = useState(true);
     const [validationMessage, setValidationMessage] = useState();
     const [isOtpValid, setIsOtpValid] = useState(true);
+    const [isResendDisable, setIsResendDisable] = useState(true);
 
     //state varaibles ends
 
     let otpArray = [];
-    const props = { message };
-
 
     const handleChange = (e) => {
         setEmail(e.target.value);
@@ -36,13 +35,13 @@ const Login = (props) => {
     const handleEnter = (e) => {
         if (e?.keyCode === 13) {
             if (e.target.name === 'email') {
-                handleAddEmail(e);
+                sendOtp(e);
             } else {
                 handleVerifyOtp(e);
             }
         };
     }
-    const handleAddEmail = async (e) => {
+    const sendOtp = async (e) => {
         e.preventDefault();
         const catchValidation = emailValidator(email);
         const { isValid, message } = catchValidation;
@@ -54,9 +53,25 @@ const Login = (props) => {
             const method = 'POST';
             const payload = { email };
             const apiResponse = await apiService(url, method, payload);
+            let apiTimer = apiResponse.data.otpExpirationTime * 60;
+            let x = setInterval(() => {
+                if (apiTimer >= 1) {
+                    apiTimer = apiTimer - 1;
+                    document.getElementById("countDown").innerHTML = apiTimer + "s ";
+                    setIsResendDisable(true);
+                } else {
+                    clearInterval(x);
+                    document.getElementById('countDown').innerHTML = 'OTP Expired';
+                    setIsResendDisable(false);
+                }
+            }, 1000);
+
             setIsEmailSent(apiResponse.success);
-            setData(apiResponse);
-            setOpenSnackbar(true);
+            const snackbarDetails = {
+                open: true,
+                msg: apiResponse.message
+            }
+            dispatch(openSnackbar(snackbarDetails));
             setValidationMessage('');
         }
     }
@@ -73,11 +88,14 @@ const Login = (props) => {
             const method = 'PUT';
             const payload = { email, otp };
             const apiResponse = await apiService(url, method, payload);
-            setData(apiResponse);
             otpArray = [];
-            setOpenSnackbar(true);
+            const snackbarDetails = {
+                open: true,
+                msg: apiResponse.message
+            }
+            dispatch(openSnackbar(snackbarDetails));
             setValidationMessage('');
-            setTimeout(navigate('/'), 2000);
+            setTimeout(() => navigate('/'), 4000);
             new Cookies('accessToken', apiResponse.data.accessToken).write();
             getToken();
         }
@@ -113,7 +131,7 @@ const Login = (props) => {
                             <Grid>
                                 <Typography variant="h4">Please enter your mail id</Typography>
                                 <TextField fullWidth name="email" label='Email' onChange={(e) => handleChange(e)} onKeyDown={(e) => handleEnter(e)} value={email} helperText={isEmailValid ? '' : <Typography color='error'>{validationMessage}</Typography>} />
-                                <TrendingFlatIcon onClick={handleAddEmail} />
+                                <TrendingFlatIcon onClick={sendOtp} />
                             </Grid>
                             {/* Email section ends */}
 
@@ -130,7 +148,7 @@ const Login = (props) => {
                                             const textFieldArray = [];
                                             for (let i = 0; i < 4; i++) {
                                                 textFieldArray.push(
-                                                    <Grid item lg={3} md={3} sm={3} xs={3} className="container">
+                                                    <Grid item lg={3} md={3} sm={3} xs={3} key={i} className="container">
                                                         <TextField id={"otp" + i} type="string" required={true} inputProps={{ maxLength: 1, minLength: 1 }} onChange={(e) => handleCreateOtp(e, i)} onKeyDown={(e) => handleEnter(e)} onKeyUp={(e) => autoTab('otp' + i, 1, 'otp' + (i + 1))} />
                                                     </Grid>
                                                 );
@@ -146,8 +164,9 @@ const Login = (props) => {
 
                                     {/* Bottom buttons section starts */}
                                     <Grid container className="mt-10">
-                                        <Grid item lg={10}><TrendingFlatIcon onClick={handleVerifyOtp} /></Grid>
-                                        <Grid item lg={2}><Typography>Resend</Typography></Grid>
+                                        <Grid item lg={12}><TrendingFlatIcon onClick={handleVerifyOtp} /></Grid>
+                                        <Grid item lg={12} className="mt-5vh center-text"><Typography id='countDown' /></Grid>
+                                        <Grid item lg={12} className="center-text"><Button disabled={isResendDisable} onClick={(e) => sendOtp(e)}>Resend</Button></Grid>
                                     </Grid>
                                     {/* Bottom buttons section ends */}
                                     {/* Verify OTP section ends */}
@@ -158,14 +177,6 @@ const Login = (props) => {
                 </Grid>
                 {/* Login section ends */}
             </Grid>
-            <Snackbar message={data?.message} />
-            {/* <Snackbar
-                open={openSnackbar}
-                onClose={() => { setOpenSnackbar(false) }}
-                autoHideDuration={3000}
-                message={data?.message}
-                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-            /> */}
         </>
     );
 }
