@@ -11,7 +11,7 @@ export const emailValidator = (param) => {
 }
 
 export const otpValidator =(param) => {
-    const isValid = regex.otp.length === param.toString().length;
+    const isValid = regex.otp.length === param;
     const message = regex.otp.message;
 
     const data = {isValid, message};
