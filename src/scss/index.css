@@ -39,6 +39,10 @@ code {
   padding: 0px 10px !important;
 }
 
+.px-20 {
+  padding: 0px 20px !important;
+}
+
 .display-inline {
   display: inline-block;
 }
@@ -50,14 +54,21 @@ code {
 .mt-10 {
   margin-top: 10px !important;
 }
-.mt-20vh{
-  margin-top: 20vh!important;
+
+.mt-20vh {
+  margin-top: 20vh !important;
 }
-.mt-5vh{
-  margin-top: 5vh!important;
+
+.mt-5vh {
+  margin-top: 5vh !important;
 }
+
 .mx-20 {
   margin: 0 20px !important;
+}
+
+.mx-2rem {
+  margin-left: 2rem !important;
 }
 
 .full-height {
@@ -71,7 +82,8 @@ code {
 .z-index {
   z-index: 99999999999;
 }
-.center-text{
+
+.center-text {
   text-align: center !important;
 }
 
@@ -89,7 +101,7 @@ code {
   margin-bottom: -9rem !important;
 }
 
-.temp-icon-style{
+.temp-icon-style {
   font-size: 40px !important;
   margin: 30px !important;
 }
