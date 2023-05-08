@@ -8,7 +8,6 @@ import { useNavigate } from "react-router-dom";
 import { Cookies } from "../utils/cookies";
 import { useDispatch } from "react-redux";
 import { openSnackbar } from "../app/commonSlice";
-import { Timer } from "@mui/icons-material";
 
 const Login = (props) => {
 
@@ -24,10 +23,10 @@ const Login = (props) => {
     const [validationMessage, setValidationMessage] = useState();
     const [isOtpValid, setIsOtpValid] = useState(true);
     const [isResendDisable, setIsResendDisable] = useState(true);
+    const [countDownMsg, setCountDownMsg] = useState('');
+    const [joinOtpArray, setJoinOtpArray] = useState([]);
 
     //state varaibles ends
-
-    let otpArray = [];
 
     const handleChange = (e) => {
         setEmail(e.target.value);
@@ -55,17 +54,16 @@ const Login = (props) => {
             const apiResponse = await apiService(url, method, payload);
             let apiTimer = apiResponse.data.otpExpirationTime * 60;
             let x = setInterval(() => {
-                if (apiTimer >= 1) {
+                if (apiTimer > 1) {
                     apiTimer = apiTimer - 1;
-                    document.getElementById("countDown").innerHTML = apiTimer + "s ";
+                    setCountDownMsg('OTP will expire in ' + apiTimer + ' seconds');
                     setIsResendDisable(true);
                 } else {
                     clearInterval(x);
-                    document.getElementById('countDown').innerHTML = 'OTP Expired';
+                    setCountDownMsg('OTP Expired');
                     setIsResendDisable(false);
                 }
             }, 1000);
-
             setIsEmailSent(apiResponse.success);
             const snackbarDetails = {
                 open: true,
@@ -77,8 +75,8 @@ const Login = (props) => {
     }
     const handleVerifyOtp = async (e) => {
         e.preventDefault();
-        const otp = parseInt(otpArray.join(''));
-        const catchValidation = otpValidator(otp);
+        const otp = joinOtpArray.join('');
+        const catchValidation = otpValidator(joinOtpArray.length);
         const { isValid, message } = catchValidation;
         setIsOtpValid(isValid);
         setValidationMessage(message);
@@ -86,22 +84,26 @@ const Login = (props) => {
         if (isValid) {
             const url = config.API_BASE_URL_DEV + '/api/otp/verify';
             const method = 'PUT';
-            const payload = { email, otp };
+            const payload = { email, otp: parseInt(otp) };
             const apiResponse = await apiService(url, method, payload);
-            otpArray = [];
             const snackbarDetails = {
                 open: true,
                 msg: apiResponse.message
             }
             dispatch(openSnackbar(snackbarDetails));
             setValidationMessage('');
-            setTimeout(() => navigate('/'), 4000);
             new Cookies('accessToken', apiResponse.data.accessToken).write();
             getToken();
+            if (new Cookies().read() !== null) {
+                setTimeout(() => navigate('/'), 4000);
+            }
+            setCountDownMsg('');
         }
     }
     const handleCreateOtp = (e, i) => {
+        let otpArray = joinOtpArray;
         otpArray[i] = (e.target.value);
+        setJoinOtpArray(otpArray)
     }
     const autoTab = (field1, len, field2) => {
         if (field2 !== 'otp' + 4) {
@@ -149,14 +151,14 @@ const Login = (props) => {
                                             for (let i = 0; i < 4; i++) {
                                                 textFieldArray.push(
                                                     <Grid item lg={3} md={3} sm={3} xs={3} key={i} className="container">
-                                                        <TextField id={"otp" + i} type="string" required={true} inputProps={{ maxLength: 1, minLength: 1 }} onChange={(e) => handleCreateOtp(e, i)} onKeyDown={(e) => handleEnter(e)} onKeyUp={(e) => autoTab('otp' + i, 1, 'otp' + (i + 1))} />
+                                                        <TextField value={joinOtpArray[i]} id={"otp" + i} type="string" required={true} inputProps={{ maxLength: 1, minLength: 1 }} onChange={(e) => handleCreateOtp(e, i)} onKeyDown={(e) => handleEnter(e)} onKeyUp={(e) => autoTab('otp' + i, 1, 'otp' + (i + 1))} />
                                                     </Grid>
                                                 );
                                             }
                                             return (
                                                 <>
                                                     {textFieldArray}
-                                                    {!isOtpValid && <Typography color='error'>{validationMessage}</Typography>}
+                                                    {!isOtpValid && <Typography color='error' className="mx-2rem">{validationMessage}</Typography>}
                                                 </>
                                             )
                                         })()}
@@ -165,7 +167,7 @@ const Login = (props) => {
                                     {/* Bottom buttons section starts */}
                                     <Grid container className="mt-10">
                                         <Grid item lg={12}><TrendingFlatIcon onClick={handleVerifyOtp} /></Grid>
-                                        <Grid item lg={12} className="mt-5vh center-text"><Typography id='countDown' /></Grid>
+                                        {countDownMsg && <Grid item lg={12} className="mt-5vh center-text"><Typography>{countDownMsg}</Typography> </Grid>}
                                         <Grid item lg={12} className="center-text"><Button disabled={isResendDisable} onClick={(e) => sendOtp(e)}>Resend</Button></Grid>
                                     </Grid>
                                     {/* Bottom buttons section ends */}
