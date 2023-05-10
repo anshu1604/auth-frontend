@@ -11,14 +11,20 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import AppsIcon from '@mui/icons-material/Apps';
+import { useNavigate } from 'react-router-dom';
 
 export default function PrimarySearchAppBar() {
+
+    const navigate = useNavigate();
+
+
     const [anchorEl, setAnchorEl] = useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
 
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
+    // handle menu open or close start
     const handleProfileMenuOpen = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -32,6 +38,14 @@ export default function PrimarySearchAppBar() {
     const handleMobileMenuOpen = (event) => {
         setMobileMoreAnchorEl(event.currentTarget);
     };
+    // handle menu open or close start
+
+
+    //handle menu items ends
+
+    const openProfile = () => {
+        navigate('/profile')
+    }
 
     const menuId = 'primary-search-account-menu';
     const renderMenu = (
@@ -50,7 +64,10 @@ export default function PrimarySearchAppBar() {
             open={isMenuOpen}
             onClose={handleMenuClose}
         >
-            <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+            <MenuItem onClick={() => {
+                handleMenuClose()
+                openProfile()
+            }}>Profile</MenuItem>
             <MenuItem onClick={handleMenuClose}>My account</MenuItem>
         </Menu>
     );
@@ -92,7 +109,7 @@ export default function PrimarySearchAppBar() {
                     aria-haspopup="true"
                     color="inherit"
                 >
-                    <AccountCircle />
+                    <AccountCircle onClick={openProfile} />
                 </IconButton>
                 <p>Profile</p>
             </MenuItem>

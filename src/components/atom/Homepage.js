@@ -1,6 +1,6 @@
 import { Grid, Link, Typography } from "@mui/material";
-import TempIcons from "../components/atom/TempIcons";
-import AppDrawer from "./AppDrawer";
+import TempIcons from "./TempIcons";
+import AppDrawer from "../../pages/AppDrawer";
 
 const Homepage = () => {
 

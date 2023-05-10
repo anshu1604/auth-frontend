@@ -12,6 +12,15 @@ code {
     monospace;
 }
 
+
+
+/* Common Classes Start */
+
+.backgroundColor {
+  background-color: #f1f3f5;
+  padding: 20px;
+}
+
 .overflow-hide {
   overflow: hidden;
 }
@@ -87,7 +96,7 @@ code {
   text-align: center !important;
 }
 
-
+/* Common Classes Ends */
 
 /* homepage css starts*/
 /* .home-bg {
@@ -214,3 +223,19 @@ section::after {
 /* Blinking Arrow Animation ends */
 
 /* homepage css ends */
+
+/*Profile page starts */
+.profile-hi {
+  font-size: 3rem !important;
+  font-family: cursive !important;
+}
+
+.profile-fst-name {
+  font-size: 5rem !important;
+  font-family: fantasy !important;
+}
+
+.profile-lst-name {
+  font-size: 3rem !important;
+  font-family: fantasy !important;
+}
