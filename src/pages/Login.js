@@ -1,4 +1,4 @@
-import { Grid, Typography, TextField, Button } from "@mui/material";
+import { Grid, Typography, Button } from "@mui/material";
 import TrendingFlatIcon from '@mui/icons-material/TrendingFlat';
 import { useState } from "react";
 import apiService from '../services/apiService';
@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { Cookies } from "../utils/cookies";
 import { useDispatch } from "react-redux";
 import { openSnackbar } from "../app/commonSlice";
+import InputField from '../components/atom/Input';
 
 const Login = (props) => {
 
@@ -132,7 +133,7 @@ const Login = (props) => {
                             {/* Email section starts */}
                             <Grid>
                                 <Typography variant="h4">Please enter your mail id</Typography>
-                                <TextField fullWidth name="email" label='Email' onChange={(e) => handleChange(e)} onKeyDown={(e) => handleEnter(e)} value={email} helperText={isEmailValid ? '' : <Typography color='error'>{validationMessage}</Typography>} />
+                                <InputField name="email" label='Email' onChange={(e) => handleChange(e)} onKeyDown={(e) => handleEnter(e)} value={email} helperText={isEmailValid ? '' : <Typography color='error'>{validationMessage}</Typography>} />
                                 <TrendingFlatIcon onClick={sendOtp} />
                             </Grid>
                             {/* Email section ends */}
@@ -151,7 +152,7 @@ const Login = (props) => {
                                             for (let i = 0; i < 4; i++) {
                                                 textFieldArray.push(
                                                     <Grid item lg={3} md={3} sm={3} xs={3} key={i} className="container">
-                                                        <TextField value={joinOtpArray[i]} id={"otp" + i} type="string" required={true} inputProps={{ maxLength: 1, minLength: 1 }} onChange={(e) => handleCreateOtp(e, i)} onKeyDown={(e) => handleEnter(e)} onKeyUp={(e) => autoTab('otp' + i, 1, 'otp' + (i + 1))} />
+                                                        <InputField value={joinOtpArray[i]} id={"otp" + i} type="string" required={true} inputProps={{ maxLength: 1, minLength: 1 }} onChange={(e) => handleCreateOtp(e, i)} onKeyDown={(e) => handleEnter(e)} onKeyUp={(e) => autoTab('otp' + i, 1, 'otp' + (i + 1))} />
                                                     </Grid>
                                                 );
                                             }

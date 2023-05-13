@@ -6,7 +6,7 @@ const apiService = async (url, method, payload) => {
         const response = await axios({
             url: url,
             method: method,
-            data: (payload)
+            data: (payload),
         })
         return response.data;
     } catch (error) {
