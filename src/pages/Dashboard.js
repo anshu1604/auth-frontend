@@ -4,7 +4,6 @@ import PrimarySearchAppBar from "../components/atom/Navbar";
 const Dashboard = () => {
     return (
         <>
-            <PrimarySearchAppBar />
             <Homepage />
         </>
     );

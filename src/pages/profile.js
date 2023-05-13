@@ -1,5 +1,4 @@
 import { Container, Grid, Typography } from "@mui/material";
-import PrimarySearchAppBar from "../components/atom/Navbar";
 import Avatar from '@mui/material/Avatar';
 import UserProfiletabs from '../components/molecules/UserProfileTabs';
 
@@ -7,7 +6,6 @@ const Profile = () => {
 
     return (
         <>
-            <PrimarySearchAppBar />
             <Container className="mt-5vh">
                 <Grid container spacing={2}>
                     <Grid item lg={6} className="mt-5vh">

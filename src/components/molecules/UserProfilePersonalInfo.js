@@ -5,6 +5,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 const UserProfilePersonalInfo = () => {
+
     return (
         <Grid container spacing={2}>
             <Grid item lg={6} md={6} sm={12} xs={12}>

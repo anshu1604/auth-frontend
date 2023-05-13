@@ -35,7 +35,7 @@ code {
 .deviceHorizontalCenter {
   position: absolute;
   left: 50%;
-  transform: translate(0%, -50%);
+  transform: translate(-50%, 0%);
 }
 
 .vertical-center {
@@ -239,3 +239,11 @@ section::after {
   font-size: 3rem !important;
   font-family: fantasy !important;
 }
+/*Profile page ends */
+
+/*404 page starts */
+.head404 {
+  font-size: 11rem !important;
+  font-family: fantasy !important;
+}
+/*404 page ends */

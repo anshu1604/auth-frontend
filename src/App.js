@@ -7,6 +7,7 @@ import { Cookies } from './utils/cookies';
 import { useState } from 'react';
 import SnackBar from './components/atom/SnackBar';
 import Page404 from './pages/404';
+import PrimarySearchAppBar from "./components/atom/Navbar";
 
 function App() {
 
@@ -18,7 +19,9 @@ function App() {
 
   return (
     <>
+
       <BrowserRouter>
+        {isToken && <PrimarySearchAppBar />}
         {isToken &&
           <Routes>
             <Route path='*' element={<Navigate replace to='/404' />} />

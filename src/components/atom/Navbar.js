@@ -67,8 +67,8 @@ export default function PrimarySearchAppBar() {
             <MenuItem onClick={() => {
                 handleMenuClose()
                 openProfile()
-            }}>Profile</MenuItem>
-            <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+            }}>My Account</MenuItem>
+            <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
         </Menu>
     );
 
@@ -111,7 +111,7 @@ export default function PrimarySearchAppBar() {
                 >
                     <AccountCircle onClick={openProfile} />
                 </IconButton>
-                <p>Profile</p>
+                <p>Settings</p>
             </MenuItem>
         </Menu>
     );
@@ -124,6 +124,7 @@ export default function PrimarySearchAppBar() {
                         variant="h6"
                         noWrap
                         component="div"
+                        onClick={() => navigate('/')}
                     >
                         MUI
                     </Typography>
