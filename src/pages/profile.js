@@ -1,8 +1,20 @@
 import { Container, Grid, Typography } from "@mui/material";
 import Avatar from '@mui/material/Avatar';
 import UserProfiletabs from '../components/molecules/UserProfileTabs';
+import apiService from "../services/apiService";
+import { config } from '../config';
+import { Cookies } from "../utils/cookies";
 
 const Profile = () => {
+
+    const url = config.API_BASE_URL_DEV + '/api/user/';
+    const method = 'GET';
+    const payload = ("");
+    const readCookies = new Cookies().read();
+    const headers = {
+        token: readCookies
+    }
+    const apiResponse = apiService(url, method, payload, headers);
 
     return (
         <>

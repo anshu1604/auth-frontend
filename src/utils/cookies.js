@@ -5,7 +5,7 @@ export class Cookies {
     }
 
     write() {
-        document.cookie = this.key + "=" + this.value + "; path=" / "";
+        document.cookie = `${this.key}=${this.value}; path=/`;
     }
 
     read() {
