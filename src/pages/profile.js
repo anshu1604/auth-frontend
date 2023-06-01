@@ -4,8 +4,14 @@ import UserProfiletabs from '../components/molecules/UserProfileTabs';
 import apiService from "../services/apiService";
 import { config } from '../config';
 import { Cookies } from "../utils/cookies";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { userProfileDetails } from "../app/commonSlice";
 
 const Profile = () => {
+
+    const dispatch = useDispatch();
+    const userProfile = useSelector(state => state.common.userInformation);
 
     const url = config.API_BASE_URL_DEV + '/api/user/';
     const method = 'GET';
@@ -14,7 +20,15 @@ const Profile = () => {
     const headers = {
         token: readCookies
     }
-    const apiResponse = apiService(url, method, payload, headers);
+
+    useEffect(() => {
+        getUserDetails();
+    }, [])
+
+    const getUserDetails = async () => {
+        const apiResponse = await apiService(url, method, payload, headers);
+        dispatch(userProfileDetails(apiResponse));
+    }
 
     return (
         <>

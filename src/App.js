@@ -5,7 +5,7 @@ import Dashboard from './pages/Dashboard';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Cookies } from './utils/cookies';
 import { useState } from 'react';
-import SnackBar from './components/atom/SnackBar';
+import SnackBar from './components/atom/Snackbar';
 import Page404 from './pages/404';
 import PrimarySearchAppBar from "./components/atom/Navbar";
 import { ThemeProvider } from "@mui/material/styles";
