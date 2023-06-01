@@ -1,30 +1,35 @@
 import { Grid } from '@mui/material';
 import InputField from '../atom/Input';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import DatePicker from '../atom/DatePicker';
 import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { config } from '../../config';
 import { Cookies } from '../../utils/cookies';
 import apiService from '../../services/apiService';
+import BUtton from '../atom/Button';
+
 
 const UserProfilePersonalInfo = () => {
 
     const userProfile = useSelector(state => state.common.userInformation);
 
+    const [userFirstName, setUserFirstName] = useState('');
+    const [userLastName, setUserLastName] = useState('');
     const [userEmail, setUserEmail] = useState('');
+    const [userMobile, setUserMobile] = useState('');
+    const [userGender, setUserGender] = useState('');
+    const [userDob, setUserDob] = useState('');
 
     const url = config.API_BASE_URL_DEV + '/api/user/';
     const method = 'PUT';
     const payload = {
-        "firstName": '',
-        "lastName": '',
+        "firstName": userFirstName,
+        "lastName": userLastName,
         "email": userEmail,
         "mobile": '',
         "country": '',
-        "dob": '',
-        "gender": ''
+        "dob": userDob,
+        "gender": userGender
     };
     const readCookies = new Cookies().read();
     const headers = {
@@ -35,35 +40,45 @@ const UserProfilePersonalInfo = () => {
         handleChange();
     }, [userProfile])
 
+
     const handleChange = (e) => {
-        setUserEmail(e ? e?.target?.value : userProfile?.data?.email)
+        setUserFirstName(e ? e?.target?.value : userProfile?.data?.firstName);;
+        setUserLastName(e ? e?.target?.value : userProfile?.data?.lastName);
+        setUserEmail(e ? e?.target?.value : userProfile?.data?.email);
+        setUserMobile(e ? e?.target?.value : userProfile?.data?.mobile);
+        setUserGender(e ? e?.target?.value : userProfile?.data?.gender);
+        setUserDob(e ? e?.target?.value : userProfile?.data?.dob);
     }
     const handleClick = (e) => {
         apiService(url, method, payload, headers);
     }
 
     return (
-        <Grid container spacing={2}>
-            <Grid item lg={6} md={6} sm={12} xs={12}>
-                <InputField label='First Name' required={true} type='email' />
+        <>
+            <Grid container spacing={2}>
+                <Grid item lg={6} md={6} sm={12} xs={12}>
+                    <InputField label='First Name' name='firstName' required={true} type='email' value={userFirstName} onChange={(e) => handleChange(e)} />
+                </Grid>
+                <Grid item lg={6} md={6} sm={12} xs={12}>
+                    <InputField label='Last Name' name='lastName' required={true} type='email' value={userLastName} onChange={(e) => handleChange(e)} />
+                </Grid>
+                <Grid item lg={6} md={6} sm={12} xs={12}>
+                    <InputField label='Email' name='email' required={true} type='email' value={userEmail} onChange={(e) => handleChange(e)} />
+                </Grid>
+                <Grid item lg={6} md={6} sm={12} xs={12}>
+                    <InputField label='Mobile' name='mobile' required={true} type='tel' value={userMobile} onChange={(e) => handleChange(e)} />
+                </Grid>
+                <Grid item lg={6} md={6} sm={12} xs={12}>
+                    <InputField label='Gender' name='gender' type='email' value={userGender} onChange={(e) => handleChange(e)} />
+                </Grid>
+                <Grid item lg={6} md={6} sm={12} xs={12}>
+                    <DatePicker lable='DOB' value={userDob} />
+                </Grid>
             </Grid>
-            <Grid item lg={6} md={6} sm={12} xs={12}>
-                <InputField label='Last Name' required={true} type='email' />
+            <Grid className='mt-10'>
+                <BUtton variant='contained' caption='Save' onClick={handleClick} />
             </Grid>
-            <Grid item lg={6} md={6} sm={12} xs={12}>
-                <InputField label='Email' required={true} type='email' value={userEmail} onChange={(e) => handleChange(e)} onClick={handleClick()} />
-            </Grid>
-            <Grid item lg={6} md={6} sm={12} xs={12}>
-                <InputField label='Gender' type='email' />
-            </Grid>
-            <Grid item lg={6} md={6} sm={12} xs={12}>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <Grid components={['DatePicker']}>
-                        <DatePicker sx={{ width: '100%' }} label="DOB" />
-                    </Grid>
-                </LocalizationProvider>
-            </Grid>
-        </Grid>
+        </>
     );
 }
 
