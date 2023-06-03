@@ -1,6 +1,7 @@
 import './App.css';
 import Login from '../src/pages/Login';
-import Profile from './pages/profile';
+import Profile from './pages/Profile';
+import ManageRoles from './pages/ManageRoles';
 import Dashboard from './pages/Dashboard';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Cookies } from './utils/cookies';
@@ -30,6 +31,7 @@ function App() {
               <Route path='/404' element={<Page404 />} />
               <Route path='/' element={<Dashboard />} />
               <Route path='/profile' element={<Profile />} />
+              <Route path='/manage-roles' element={<ManageRoles/>} />
             </Routes>
           }
           {!isToken &&

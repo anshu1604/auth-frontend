@@ -101,12 +101,10 @@ const Login = (props) => {
             setCountDownMsg('');
         }
     }
-    const handleCreateOtp = (e, i) => {
+    const handleCreateOtp = (e, i, field1, len, field2) => {
         let otpArray = joinOtpArray;
         otpArray[i] = (e.target.value);
         setJoinOtpArray(otpArray)
-    }
-    const autoTab = (field1, len, field2) => {
         if (field2 !== 'otp' + 4) {
             if (document.getElementById(field1).value.length === len) {
                 document.getElementById(field2).focus();
@@ -152,7 +150,7 @@ const Login = (props) => {
                                             for (let i = 0; i < 4; i++) {
                                                 textFieldArray.push(
                                                     <Grid item lg={3} md={3} sm={3} xs={3} key={i} className="container">
-                                                        <InputField value={joinOtpArray[i]} id={"otp" + i} type="string" required={true} inputProps={{ maxLength: 1, minLength: 1 }} onChange={(e) => handleCreateOtp(e, i)} onKeyDown={(e) => handleEnter(e)} onKeyUp={(e) => autoTab('otp' + i, 1, 'otp' + (i + 1))} />
+                                                        <InputField value={joinOtpArray[i]} id={"otp" + i} type="string" required={true} inputProps={{ maxLength: 1, minLength: 1 }} onChange={(e) => handleCreateOtp(e, i, 'otp' + i, 1, 'otp' + (i + 1))} onKeyDown={(e) => handleEnter(e)} />
                                                     </Grid>
                                                 );
                                             }

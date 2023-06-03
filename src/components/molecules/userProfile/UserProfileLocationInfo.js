@@ -1,5 +1,5 @@
 import { Grid } from '@mui/material';
-import InputField from '../atom/Input';
+import InputField from '../../atom/Input';
 
 const UserProfileLocationInfo = () => {
     return (
