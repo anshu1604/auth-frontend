@@ -1,17 +1,12 @@
 import { Container, Grid, Typography } from "@mui/material";
 import Avatar from '@mui/material/Avatar';
-import UserProfiletabs from '../components/molecules/UserProfileTabs';
+import UserProfiletabs from '../components/molecules/userProfile/UserProfileTabs';
 import apiService from "../services/apiService";
 import { config } from '../config';
 import { Cookies } from "../utils/cookies";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { userProfileDetails } from "../app/commonSlice";
 
 const Profile = () => {
-
-    const dispatch = useDispatch();
-    const userProfile = useSelector(state => state.common.userInformation);
 
     const url = config.API_BASE_URL_DEV + '/api/user/';
     const method = 'GET';
@@ -21,13 +16,14 @@ const Profile = () => {
         token: readCookies
     }
 
+    // <UserProfileTabs getUserDetail={getUserDetails} userData={userData} />
+
     useEffect(() => {
         getUserDetails();
     }, [])
 
     const getUserDetails = async () => {
         const apiResponse = await apiService(url, method, payload, headers);
-        dispatch(userProfileDetails(apiResponse));
     }
 
     return (
