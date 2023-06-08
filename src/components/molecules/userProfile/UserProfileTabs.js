@@ -38,8 +38,10 @@ function a11yProps(index) {
     };
 }
 
-export default function BasicTabs() {
+export default function BasicTabs(props) {
+    const { userProfileData, getUserDetails } = props;
     const [value, setValue] = useState(0);
+    console.log(userProfileData)
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -55,7 +57,7 @@ export default function BasicTabs() {
                 </Tabs>
             </Box>
             <TabPanel value={value} index={0}>
-                <UserProfilePersonalInfo />
+                <UserProfilePersonalInfo userProfileData={userProfileData} getUserDetails={getUserDetails} />
             </TabPanel>
             <TabPanel value={value} index={1}>
                 <UserProfileLocationInfo />

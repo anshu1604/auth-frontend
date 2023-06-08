@@ -8,6 +8,8 @@ import { useEffect, useState } from "react";
 
 const Profile = () => {
 
+    const [userProfileData, setUserProfileData] = useState();
+
     const url = config.API_BASE_URL_DEV + '/api/user/';
     const method = 'GET';
     const payload = ("");
@@ -16,15 +18,17 @@ const Profile = () => {
         token: readCookies
     }
 
-    // <UserProfileTabs getUserDetail={getUserDetails} userData={userData} />
-
     useEffect(() => {
         getUserDetails();
     }, [])
 
     const getUserDetails = async () => {
         const apiResponse = await apiService(url, method, payload, headers);
+        setUserProfileData(apiResponse);
     }
+    console.log(userProfileData)
+    const props = { userProfileData, getUserDetails };
+
 
     return (
         <>
@@ -41,7 +45,7 @@ const Profile = () => {
                         <Avatar className="deviceCenter" sx={{ width: 500, height: 500 }} alt="Remy Sharp" src="https://media.istockphoto.com/id/1344963248/photo/studio-shot-of-an-attractive-young-woman-posing-against-a-grey-background.jpg?b=1&s=170667a&w=0&k=20&c=PrSBe8t1BEB4nBb67qldfLvmaBmTaUi6qQwl_H8X6rM=" />
                     </Grid>
                 </Grid>
-                <UserProfiletabs />
+                <UserProfiletabs userData={userProfileData} getUserDetails={getUserDetails} />
             </Container>
         </>
     );
