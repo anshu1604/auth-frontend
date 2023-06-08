@@ -8,7 +8,10 @@ import apiService from '../../../services/apiService';
 import BUtton from '../../atom/Button';
 
 
-const UserProfilePersonalInfo = () => {
+const UserProfilePersonalInfo = (props) => {
+
+    const { userProfileData, getUserDetails } = props;
+    console.log(userProfileData)
 
     const [userData, setUserData] = useState({
         firstName: '',
