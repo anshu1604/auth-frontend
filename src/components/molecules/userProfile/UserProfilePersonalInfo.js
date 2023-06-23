@@ -1,7 +1,7 @@
 import { Grid } from '@mui/material';
 import InputField from '../../atom/Input';
 import DatePicker from '../../atom/DatePicker';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { config } from '../../../config';
 import { Cookies } from '../../../utils/cookies';
 import apiService from '../../../services/apiService';
@@ -10,17 +10,17 @@ import BUtton from '../../atom/Button';
 
 const UserProfilePersonalInfo = (props) => {
 
-    const { userProfileData, getUserDetails } = props;
-    console.log(userProfileData)
-
+    const { userProfileData } = props;
+    console.log(userProfileData, "api wala page")
     const [userData, setUserData] = useState({
         firstName: '',
         lastName: '',
-        email: '',
+        email: userProfileData?.data?.email,
         mobile: '',
         gender: '',
         dob: ''
     });
+    console.log(userData, "state ")
 
     const url = config.API_BASE_URL_DEV + '/api/user/';
     const method = 'PUT';
@@ -58,13 +58,13 @@ const UserProfilePersonalInfo = (props) => {
                     <InputField label='Last Name' name='lastName' required={true} type='email' value={userData?.lastName} onChange={(e) => handleChange(e)} />
                 </Grid>
                 <Grid item lg={6} md={6} sm={12} xs={12}>
-                    <InputField label='Email' name='email' required={true} type='email' value={userData?.email} onChange={(e) => handleChange(e)} />
+                    <InputField label='Email' name='email' required={true} type='email' value={userData.email} onChange={(e) => handleChange(e)} />
                 </Grid>
                 <Grid item lg={6} md={6} sm={12} xs={12}>
                     <InputField label='Mobile' name='mobile' required={true} type='tel' value={userData?.mobile} onChange={(e) => handleChange(e)} />
                 </Grid>
                 <Grid item lg={6} md={6} sm={12} xs={12}>
-                    <InputField label='Gender' name='gender' type='email' value={userData?.gender} onChange={(e) => handleChange(e)} />
+                    <InputField label='Gender' name='gender' type='text' value={userData?.gender} onChange={(e) => handleChange(e)} />
                 </Grid>
                 <Grid item lg={6} md={6} sm={12} xs={12}>
                     <DatePicker lable='DOB' name='dob' value={userData?.dob} />
