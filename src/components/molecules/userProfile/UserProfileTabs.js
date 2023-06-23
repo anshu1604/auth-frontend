@@ -9,7 +9,7 @@ function TabPanel(props) {
     const { children, value, index, ...other } = props;
 
     return (
-        <div
+        <Box
             role="tabpanel"
             hidden={value !== index}
             id={`simple-tabpanel-${index}`}
@@ -21,7 +21,7 @@ function TabPanel(props) {
                     <Typography>{children}</Typography>
                 </Box>
             )}
-        </div>
+        </Box>
     );
 }
 
@@ -38,10 +38,10 @@ function a11yProps(index) {
     };
 }
 
-export default function BasicTabs(props) {
-    const { userProfileData, getUserDetails } = props;
+export default function UserProfileTabs(props) {
+    const { userProfileData } = props;
     const [value, setValue] = useState(0);
-    console.log(userProfileData)
+    console.log(userProfileData);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -57,7 +57,7 @@ export default function BasicTabs(props) {
                 </Tabs>
             </Box>
             <TabPanel value={value} index={0}>
-                <UserProfilePersonalInfo userProfileData={userProfileData} getUserDetails={getUserDetails} />
+                <UserProfilePersonalInfo userProfileData={userProfileData} />
             </TabPanel>
             <TabPanel value={value} index={1}>
                 <UserProfileLocationInfo />
