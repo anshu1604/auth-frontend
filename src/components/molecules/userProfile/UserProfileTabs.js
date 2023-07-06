@@ -39,9 +39,8 @@ function a11yProps(index) {
 }
 
 export default function UserProfileTabs(props) {
-    const { userProfileData } = props;
+    const { userProfileData, getUserDetails } = props;
     const [value, setValue] = useState(0);
-    console.log(userProfileData);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -57,10 +56,10 @@ export default function UserProfileTabs(props) {
                 </Tabs>
             </Box>
             <TabPanel value={value} index={0}>
-                <UserProfilePersonalInfo userProfileData={userProfileData} />
+                <UserProfilePersonalInfo userProfileData={userProfileData} getUserDetails={getUserDetails} />
             </TabPanel>
             <TabPanel value={value} index={1}>
-                <UserProfileLocationInfo />
+                <UserProfileLocationInfo/>
             </TabPanel>
             <TabPanel value={value} index={2}>
                 <UserProfileSecurityInfo />

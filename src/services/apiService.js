@@ -9,7 +9,9 @@ const apiService = async (url, method, payload, headers) => {
             data: payload,
             headers: headers,
         })
-        return response.data;
+        return (
+            response.data
+        );
     } catch (error) {
         return error.response.data;
     }

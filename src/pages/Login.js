@@ -9,6 +9,7 @@ import { Cookies } from "../utils/cookies";
 import { useDispatch } from "react-redux";
 import { openSnackbar } from "../app/commonSlice";
 import InputField from '../components/atom/Input';
+import { apiConfig } from "../services/apiconfig";
 
 const Login = (props) => {
 
@@ -49,9 +50,10 @@ const Login = (props) => {
         setValidationMessage(message);
 
         if (isValid) {
-            const url = config.API_BASE_URL_DEV + '/api/otp/send';
+            const url = apiConfig.SEND_OTP_API;
             const method = 'POST';
             const payload = { email };
+            
             const apiResponse = await apiService(url, method, payload);
             let apiTimer = apiResponse.data.otpExpirationTime * 60;
             let x = setInterval(() => {
@@ -83,7 +85,7 @@ const Login = (props) => {
         setValidationMessage(message);
 
         if (isValid) {
-            const url = config.API_BASE_URL_DEV + '/api/otp/verify';
+            const url = apiConfig.VERIFY_OTP_API;
             const method = 'PUT';
             const payload = { email, otp: parseInt(otp) };
             const apiResponse = await apiService(url, method, payload);

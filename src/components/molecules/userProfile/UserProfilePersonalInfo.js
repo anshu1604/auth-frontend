@@ -2,76 +2,74 @@ import { Grid } from '@mui/material';
 import InputField from '../../atom/Input';
 import DatePicker from '../../atom/DatePicker';
 import { useEffect, useState } from 'react';
-import { config } from '../../../config';
 import { Cookies } from '../../../utils/cookies';
 import apiService from '../../../services/apiService';
-import BUtton from '../../atom/Button';
-
+import { apiConfig } from '../../../services/apiconfig';
+import userModel from '../../../services/models/userModel';
+import CustomButton from '../../atom/CustomButton';
 
 const UserProfilePersonalInfo = (props) => {
 
-    const { userProfileData } = props;
-    console.log(userProfileData, "api wala page")
-    const [userData, setUserData] = useState({
-        firstName: '',
-        lastName: '',
-        email: userProfileData?.data?.email,
-        mobile: '',
-        gender: '',
-        dob: ''
-    });
-    console.log(userData, "state ")
+    //catching props starts
+    const { userProfileData, getUserDetails } = props;
+    //catching props ends
 
-    const url = config.API_BASE_URL_DEV + '/api/user/';
-    const method = 'PUT';
-    const payload = {
-        "firstName": userData?.firstName,
-        "lastName": userData?.lastName,
-        "email": userData?.email,
-        "mobile": userData?.mobile,
-        "country": '',
-        "dob": userData?.dob,
-        "gender": userData?.gender
-    };
-    const readCookies = new Cookies().read();
-    const headers = {
-        token: readCookies
+    //state variables starts
+    const [userData, setUserData] = useState(userProfileData);
+    //state variables ends
+
+    useEffect(() => {
+        setUserData(userProfileData);
+    }, [userProfileData])
+
+
+    //post api data starts
+    const handleClick = (e) => {
+        const url = apiConfig.USER_DATA_API;
+        const method = 'PUT';
+        const payload = userModel(userData, method);
+            const readCookies = new Cookies().read();
+        const headers = {
+            token: readCookies
+        }
+        apiService(url, method, payload, headers);
+        getUserDetails();
     }
+    //post api data ends
 
+    //input fields on change starts
     const handleChange = (e) => {
         setUserData({
             ...userData,
             [e?.target?.name]: e?.target?.value
         })
     }
-    const handleClick = (e) => {
-        apiService(url, method, payload, headers);
-    }
+    //input fields on change ends
 
     return (
         <>
             <Grid container spacing={2}>
                 <Grid item lg={6} md={6} sm={12} xs={12}>
-                    <InputField label='First Name' name='firstName' required={true} type='email' value={userData?.firstName} onChange={(e) => handleChange(e)} />
+                    <InputField label='First Name' name='userFirstName' required={true} type='text' value={userData?.userFirstName || ''} onChange={(e) => handleChange(e)} />
                 </Grid>
                 <Grid item lg={6} md={6} sm={12} xs={12}>
-                    <InputField label='Last Name' name='lastName' required={true} type='email' value={userData?.lastName} onChange={(e) => handleChange(e)} />
+                    <InputField label='Last Name' name='userLastName' required={true} type='text' value={userData?.userLastName || ''} onChange={(e) => handleChange(e)} />
                 </Grid>
                 <Grid item lg={6} md={6} sm={12} xs={12}>
-                    <InputField label='Email' name='email' required={true} type='email' value={userData.email} onChange={(e) => handleChange(e)} />
+                    <InputField label='Email' name='userEmail' required={true} type='email' value={userData?.userEmail || ''} onChange={(e) => handleChange(e)} />
                 </Grid>
                 <Grid item lg={6} md={6} sm={12} xs={12}>
-                    <InputField label='Mobile' name='mobile' required={true} type='tel' value={userData?.mobile} onChange={(e) => handleChange(e)} />
+                    <InputField label='Mobile' name='userMobileNumber' required={true} type='tel' value={userData?.userMobileNumber || ''} onChange={(e) => handleChange(e)} />
                 </Grid>
                 <Grid item lg={6} md={6} sm={12} xs={12}>
-                    <InputField label='Gender' name='gender' type='text' value={userData?.gender} onChange={(e) => handleChange(e)} />
+                    <InputField label='Gender' name='userGender' type='text' value={userData?.userGender || ''} onChange={(e) => handleChange(e)} />
                 </Grid>
                 <Grid item lg={6} md={6} sm={12} xs={12}>
-                    <DatePicker lable='DOB' name='dob' value={userData?.dob} />
+                    <DatePicker lable='DOB' name='userDob' value={userData?.userDob || ''} />
                 </Grid>
             </Grid>
             <Grid className='mt-10'>
-                <BUtton variant='contained' caption='Save' onClick={handleClick} />
+                <CustomButton variant='contained' caption='Save' onClick={handleClick} />
             </Grid>
         </>
     );

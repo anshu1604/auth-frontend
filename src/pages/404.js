@@ -1,5 +1,5 @@
 import { Box, Typography, Avatar } from "@mui/material";
-import Button from '../components/atom/Button';
+import CustomButton from "../components/atom/CustomButton";
 
 const Page404 = () => {
 
@@ -8,7 +8,7 @@ const Page404 = () => {
             <Avatar alt='page-not-found' className="deviceHorizontalCenter" sx={{ width: 800, height: 800 }} src="https://img.freepik.com/free-vector/404-error-with-landscape-concept-illustration_114360-7888.jpg?w=2000" />
             <Typography className="center-text">Click the link below to continue browsing</Typography>
             <Box className="center-text">
-                <Button caption={'Get back to Home'} href='/' />
+                <CustomButton caption={'Get back to Home'} href='/' />
             </Box>
         </>
     );
